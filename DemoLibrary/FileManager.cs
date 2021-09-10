@@ -9,12 +9,18 @@ namespace DemoLibrary
 {
     public class FileManager
     {
-        public void WriteFile(String p_filename, String p_text)
+        //create folderlcoation string that main can write, and FileManager can use
+        public StreamWriter SW { get; set; }
+        public StreamWriter SR { get; set; }
+
+        public void WriteFile(TextFile p_file)
         {
-            StreamWriter sw = new StreamWriter(p_filename);
+            //StreamWriter sw = new StreamWriter(p_filename);
+            SW = new StreamWriter($"{p_file.Location}{p_file.FileName}");
             try
             {
-                sw.Write(p_text);
+                //sw.Write(p_text);
+                SW.Write(p_file.Text);
             }
             catch (Exception)
             {
@@ -23,9 +29,15 @@ namespace DemoLibrary
             //close stream writer regardless of exception
             finally
             {
-                sw.Close();
+                SW.Close();
             }
         }
+
+        //public string CreateFileLocation()
+        //{
+        //    string fileLocation = $"{FMFile.FolderPath}{FMFile.FileName}";
+        //    return fileLocation;
+        //}
 
         public string createTextToWrite(string p_saveKey)
         {
@@ -41,11 +53,6 @@ namespace DemoLibrary
                 }
             } while (buff != p_saveKey);
 
-            //while (buff != p_saveKey)
-            //{
-            //    text += buff + "\n";
-            //    buff = Console.ReadLine();
-            //}
             return text;
         }
     }
